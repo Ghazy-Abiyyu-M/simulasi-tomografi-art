@@ -7,7 +7,7 @@ Proyek ini berfokus pada perbandingan dua pendekatan utama:
 📌 Disusun sebagai **Tugas Pengganti Kuliah Minggu ke-7**
 - Ghazy Abiyyu Maulana
 - 1104220120
-📚 Mata Kuliah: Teknik Tomografi
+- Mata Kuliah: Teknik Tomografi
 
 ---
 
