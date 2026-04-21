@@ -79,6 +79,13 @@ Proyek ini mengacu pada penelitian berikut:
 
 ---
 
+## 🌐 Live Demo
+
+Coba aplikasinya di sini:  
+👉 [EduTomo Web App](https://simulasi-tomografi.streamlit.app/)
+
+---
+
 ## 🚀 Cara Menjalankan Secara Lokal
 
 ### 1. Clone Repository
