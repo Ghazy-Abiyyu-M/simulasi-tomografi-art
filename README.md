@@ -4,7 +4,9 @@ Proyek ini berfokus pada perbandingan dua pendekatan utama:
 - **Filtered Back Projection (FBP)** → metode analitik klasik
 - **Algebraic Reconstruction Technique (ART)** → metode iteratif berbasis sistem persamaan linear
 
-📌 Disusun sebagai **Tugas Pengganti Kuliah Minggu ke-7**  
+📌 Disusun sebagai **Tugas Pengganti Kuliah Minggu ke-7**
+    Ghazy Abiyyu Maulana
+    1104220120
 📚 Mata Kuliah: Teknik Tomografi
 
 ---
