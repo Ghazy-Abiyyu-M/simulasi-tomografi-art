@@ -82,7 +82,7 @@ Proyek ini mengacu pada penelitian berikut:
 ## 🌐 Live Demo
 
 Coba aplikasinya di sini:  
-👉 [EduTomo Web App](https://simulasi-tomografi.streamlit.app/)
+👉 [Simulasi Rekonstruksi Tomografi: FBP vs ART](https://simulasi-tomografi.streamlit.app/)
 
 ---
 
