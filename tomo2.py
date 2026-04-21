@@ -11,9 +11,7 @@ from skimage.transform import radon, iradon, iradon_sart, resize
 from skimage.metrics import mean_squared_error, peak_signal_noise_ratio, structural_similarity
 from typing import Tuple, List, Dict, Optional
 
-# =====================================================================
-# MODULE 1: CONFIG & CUSTOM CSS
-# =====================================================================
+
 def init_app():
     st.set_page_config(page_title="Tomografi ART - Simulasi", layout="wide", page_icon="🔬", initial_sidebar_state="expanded")
     
@@ -54,9 +52,7 @@ def init_app():
     if 'macro_frame' not in st.session_state:
         st.session_state.macro_frame = 1
 
-# =====================================================================
-# MODULE 2: MICRO-ART ENGINE 
-# =====================================================================
+
 @st.cache_data
 def build_micro_system(N: int = 16, num_angles: int = 4, noise_level: float = 0.0):
     x_true_2d = np.zeros((N, N))
@@ -127,9 +123,6 @@ def plot_micro_grid(img, title, colorscale='gray', zmin=0, zmax=1.0, show_grid=T
     fig.update_xaxes(showticklabels=False).update_yaxes(showticklabels=False)
     return fig
 
-# =====================================================================
-# MODULE 3 & 4: MACRO PHYSICS & METRICS
-# =====================================================================
 @st.cache_data
 def load_phantom(custom_image_array: Optional[np.ndarray] = None) -> np.ndarray:
     target_size = (256, 256)
@@ -174,9 +167,6 @@ def compute_advanced_metrics(true_img: np.ndarray, recon_img: np.ndarray, roi: T
         "SSIM": structural_similarity(t_img, r_img, data_range=1.0, win_size=min(7, t_img.shape[0])) if min(7, t_img.shape[0]) >= 3 else 0
     }
 
-# =====================================================================
-# MODULE 5: MAIN APPLICATION ROUTING
-# =====================================================================
 def main():
     init_app()
     
@@ -211,7 +201,6 @@ def main():
         """, unsafe_allow_html=True)
         st.latex(r"f_{1}(z;y,\lambda) := \frac{\sum_{i=1}^{I}A_{ij}\left(\frac{y_{i}}{(A_{i}z)^{k}}\right)^{\gamma}}{\sum_{i=1}^{I}A_{ij}\left(\frac{A_{i}z}{(A_{i}z)^{k}}\right)^{\gamma}}")
 
-    # --- SIDEBAR ---
     st.sidebar.markdown("### 🎛️ Navigasi Modul")
     app_mode = st.sidebar.radio("Pilih Mode Simulasi:", [
         "1. Konsep Matriks Linier (Micro-ART)", 
@@ -219,9 +208,6 @@ def main():
     ])
     st.sidebar.markdown("---")
 
-    # ==============================================================
-    # APP MODE 1: MICRO-ART 
-    # ==============================================================
     if app_mode == "1. Konsep Matriks Linier (Micro-ART)":
         st.sidebar.subheader("⚙️ Parameter Resolusi Dasar")
         grid_N = st.sidebar.slider("Resolusi Matriks Grid (N x N)", 8, 32, 16, step=4, help="Menentukan ukuran gambar. Makin besar, makin banyak persamaan matriks yang harus diselesaikan.")
@@ -297,9 +283,6 @@ def main():
         else:
             render_micro_art_step(step)
 
-    # ==============================================================
-    # APP MAIN MODE 2: MACRO WORKSTATION (SIMULASI MEDIS)
-    # ==============================================================
     else:
         with st.sidebar:
             st.subheader("⚙️ Parameter Skenario Alat CT")
@@ -328,7 +311,6 @@ def main():
 
         tab1, tab2, tab3 = st.tabs(["📊 Perbandingan FBP vs ART (Live)", "📡 Model Akuisisi (Sinogram)", "📈 Metrik Kinerja Kuantitatif"])
 
-        # --- TAB 1: LIVE REKONSTRUKSI ---
         with tab1:
             st.markdown(f"### Visualisasi Rekonstruksi - Skenario: {mode.split('(')[0]}")
             st.write("Panel ini membandingkan hasil cara lama (FBP) dengan cara baru (ART). Gunakan slider iterasi untuk melihat bagaimana ART membersihkan *noise* secara bertahap.")
@@ -392,7 +374,6 @@ def main():
                     st.session_state.anim_macro = False
                     st.rerun() 
 
-        # --- TAB 2: FORWARD MODEL ---
         with tab2:
             st.markdown("### 📡 Transformasi Radon (Cara Kerja Alat Fisik)")
             st.info("💡 **Penjelasan:** Di alam nyata, komputer tidak langsung mendapatkan gambar kepala/organ. Alat CT Scanner memancarkan sinar dan menangkap profil berupa **gelombang redaman (grafik tengah)**. Kumpulan grafik dari puluhan/ratusan sudut ini kemudian ditumpuk menjadi satu gambar abstrak yang disebut **Sinogram (gambar kanan)**. Rekonstruksi adalah proses mengubah Sinogram kembali menjadi gambar organ.")
@@ -431,7 +412,6 @@ def main():
                 fig_sino.update_layout(xaxis_title="Kamera Detektor", yaxis_title="Deretan Sudut", margin=dict(l=0, r=0, t=10, b=0), height=300)
                 st.plotly_chart(fig_sino, use_container_width=True)
 
-        # --- TAB 3: VALIDASI ---
         with tab3:
             st.markdown("### 🎯 Evaluasi Akurasi (Region of Interest)")
             st.info("💡 **Penjelasan:** Kualitas gambar medis tidak bisa hanya dilihat dengan mata kasar, harus dibuktikan dengan angka. **SSIM** mengukur kemiripan bentuk dengan gambar asli (Makin dekat ke nilai 1.0, artinya sangat mirip). **RMSE** mengukur jumlah titik yang cacat/error (Makin dekat ke 0.0, artinya makin sedikit errornya). Evaluasi ini fokus di area *bounding box* (kotak) yang Anda atur.")
@@ -486,12 +466,11 @@ def main():
                 else:
                     st.warning("⚠️ Area kotak evaluasi terlalu kecil atau pengaturan limit terbalik.")
 
-    # --- FOOTER ---
     st.markdown("""
         <div class='app-footer'>
             <p><b>Tugas Pengganti Kuliah Minggu ke-7: Teknik Tomografi</b></p>
             <p style='margin-bottom: 15px; font-size: 0.9rem;'>Dibuat oleh <b>Ghazy Abiyyu Maulana</b> (1104220120) | Teknik Fisika, Telkom University</p>
-            <a href='https://github.com' target='_blank'>
+            <a href='https://github.com/Ghazy-Abiyyu-M/simulasi-tomografi-art' target='_blank'>
                 📦 Kunjungi Repository GitHub
             </a>
         </div>
